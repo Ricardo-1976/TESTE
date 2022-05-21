@@ -4,5 +4,10 @@
   "host": "localhost",
   "username":"docker",
   "password": "teste",
-  "database": "teste"
+  "database": "teste",
+  "entities": ["**/entities/**/*.ts"],
+  "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+  }
 }
