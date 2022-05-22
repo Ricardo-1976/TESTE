@@ -1,4 +1,3 @@
-import { IListUserDTO } from "@modules/users/dtos/IListUserDTO";
 import { User } from "@modules/users/infra/typeorm/entities/User";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 import { AppError } from "@shared/errors/AppError";
@@ -11,17 +10,14 @@ class ListUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({
- limit,page
-  }: IListUserDTO
-  ): Promise<any> {
-    
-    const user = await this.usersRepository.list({
-      limit,page
+  async execute(id: string): Promise<User> {
+    const User = await this.usersRepository.findById(id);
 
-    });
+    if (!User) {
+      throw new AppError("This user does not exist");
+    }
 
-    return user;
+    return User;
   }
 }
 

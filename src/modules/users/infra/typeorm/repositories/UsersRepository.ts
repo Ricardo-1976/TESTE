@@ -12,19 +12,6 @@ class UsersRepository implements IUsersRepository {
   constructor() {
     this.repository = getRepository(User);
   }
-  async list(data: IListUserDTO): Promise<any> {
-
-    const { page=1, limit=20 } = data
-
-     const salto = (page - 1) * limit;
-    
-    const [user, register] =  await this.repository.findAndCount({
-      take:limit,
-      skip:salto
-    })
-
-    return { data:user, register, page, limit}
-  }
   
   async create({
     id,
@@ -84,6 +71,20 @@ class UsersRepository implements IUsersRepository {
 
   async delete(id: string): Promise<void> {
     await this.repository.delete(id);
+  }
+
+  async list(data: IListUserDTO): Promise<any> {
+
+    const { page=1, limit=20 } = data
+
+     const salto = (page - 1) * limit;
+    
+    const [user, register] =  await this.repository.findAndCount({
+      take:limit,
+      skip:salto
+    })
+
+    return { data:user, register, page, limit}
   }
 }
 

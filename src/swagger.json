@@ -9,7 +9,7 @@
     }
   },
   "paths": {
-    "/user": {
+    "/users": {
       "post": {
         "tags": ["Create User"],
         "summary": "Create a new user",
@@ -58,7 +58,7 @@
      }
       
     },
-    "/user/import": {
+    "/users/import": {
       "post":{
         "tags":["Import Users"],
         "summary":"Upload a new user",
@@ -88,7 +88,7 @@
         }
       }  
     },
-    "/user/update/{id}": {
+    "/users/update/{id}": {
       "put": {
         "tags": ["Update user"],
         "summary": "Update a user",
@@ -147,7 +147,7 @@
      }
     }
   },
-  "/user/delete/{id}": {
+  "/users/delete/{id}": {
       "delete": {
         "tags": ["Delete user"],
         "summary": "Delete a new user",
@@ -165,7 +165,7 @@
         ]
       }
     },
-    "/user/avatar/{id}": {
+    "/users/avatar/{id}": {
       "patch":{
         "tags":["Update avatar a new user"],
         "summary":"Upload avatar a new user",
@@ -202,9 +202,53 @@
           }
         }
       }  
+    },
+     "/users/users": {
+    "get": {
+        "tags": ["List all users"],
+        "summary": "List all users",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+   },
+   "/users/{id}": {
+      "get":{
+        "tags": ["List all users"],
+        "summary": "List all users",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
     }
   }
 }
-
-
-      
