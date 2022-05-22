@@ -1,3 +1,4 @@
+import { User } from "@modules/users/infra/typeorm/entities/User";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 import { deleteFile } from "@utils/file";
 import { inject, injectable } from "tsyringe";
@@ -14,7 +15,7 @@ class UpdateAvatarUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ user_id, avatar_file}: IRequest): Promise<void> {
+  async execute({ user_id, avatar_file}: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (user.foto) {
@@ -24,6 +25,8 @@ class UpdateAvatarUseCase {
     user.foto = avatar_file;
 
     await this.usersRepository.create(user);
+
+    return user;
   }
 }
 
