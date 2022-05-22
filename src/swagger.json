@@ -11,8 +11,8 @@
   "paths": {
     "/user": {
       "post": {
-        "tags": ["User"],
-        "summary": "Create a user",
+        "tags": ["Create User"],
+        "summary": "Create a new user",
         "description": "Create a new user",
         "requestBody": {
           "content": {
@@ -55,42 +55,14 @@
           "description": "User already exists"
          }
        }
-     },
-      "get": {
-        "tags": ["Category"],
-        "summary": "List all categories",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "Items": {
-                    "type":"object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      }
-
-                    }
-
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+     }
+      
     },
-    "/categories/import": {
+    "/user/import": {
       "post":{
-        "tags":["Category"],
-        "summary":"Upload a new category",
-        "description": "Upload a new category",
+        "tags":["Import Users"],
+        "summary":"Upload a new user",
+        "description": "Upload a new users",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -109,46 +81,132 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "User already exists!"
           }
         }
-      }
+      }  
     },
-    "/specifications": {
-      "post":{
-        "tags": ["Specifications"],
-        "summary": "Create a specification",
-        "description": "Create a new specification",
+    "/user/update/{id}": {
+      "put": {
+        "tags": ["Update user"],
+        "summary": "Update a user",
+        "description": "Update a new user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
-          "content":{
+          "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Specification"
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "telefone": {
+                    "type": "string"
+                  },
+                  "cargo": {
+                    "type": "string"
+                  },
+                  "empresa": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "nome": "Nome ",
+                  "email": "Email",
+                  "telefone": "Telefone",
+                  "cargo": "Cargo",
+                  "empresa": "Empresa"
               }
             }
           }
         },
-        "responses":{
-          "201":{
-            "description":"Created"
-          },
-          "500":{
-            "description":"Specification already exists|"
-          }
-        }
-      }
+        "responses": {
+        "201": {
+          "description": "Create"
+        },
+        "500": {
+          "description": "User already exists"
+         }
+       }
+     }
     }
   },
-  "definitions": {
-    "Specification": {
-      "type":"object",
-      "properties": {
-        "name": {
-          "type":"string"
-        },
-        "description":{
-          "type":"string"
-        }
+  "/user/delete/{id}": {
+      "delete": {
+        "tags": ["Delete user"],
+        "summary": "Delete a new user",
+        "description": "Update a new user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
+    },
+
+    "/user/avatar/{id}": {
+      "patch":{
+        "tags":["Update avatar a new user"],
+        "summary":"Upload avatar a new user",
+        "description": "Upload avatar a new user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type":"object",
+                "properties": {
+                  "avatar": {
+                    "type":"string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }  
     }
+
   }
 }
+
+
+      
