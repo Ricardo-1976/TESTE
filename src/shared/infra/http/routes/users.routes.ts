@@ -14,6 +14,7 @@ const upload = multer({
 });
 
 import uploadConfig from "@config/upload";
+import { ListUserController } from "@modules/users/useCases/ListUser/ListUserController";
 
 
 const createUserController = new CreateUserController();
@@ -21,6 +22,7 @@ const importUserController = new ImportUserController();
 const updateUserController = new UpdateUserController();
 const deleteUserController = new DeleteUserController();
 const updateAvatarController = new UpdateAvatarController();
+const listUserController = new ListUserController();
 
 const  uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"));
 
@@ -38,6 +40,9 @@ usersRoutes.delete("/delete/:id", deleteUserController.handle);
 
 // Update avatar the user
 usersRoutes.patch("/avatar/:id",uploadAvatar.single("avatar"), updateAvatarController.handle);
+
+// List User
+usersRoutes.get("/user", listUserController.handle);
 
 export { usersRoutes };
 

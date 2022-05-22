@@ -165,7 +165,6 @@
         ]
       }
     },
-
     "/user/avatar/{id}": {
       "patch":{
         "tags":["Update avatar a new user"],
@@ -204,7 +203,6 @@
         }
       }  
     }
-
   }
 }
 

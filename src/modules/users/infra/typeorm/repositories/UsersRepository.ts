@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { IListUserDTO } from "@modules/users/dtos/IListUserDTO";
 import { IUpdateUserDTO } from "@modules/users/dtos/IUpdateUserDTO";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 import { getRepository, Repository } from "typeorm";
@@ -10,6 +11,19 @@ class UsersRepository implements IUsersRepository {
 
   constructor() {
     this.repository = getRepository(User);
+  }
+  async list(data: IListUserDTO): Promise<any> {
+
+    const { page=1, limit=20 } = data
+
+     const salto = (page - 1) * limit;
+    
+    const [user, register] =  await this.repository.findAndCount({
+      take:limit,
+      skip:salto
+    })
+
+    return { data:user, register, page, limit}
   }
   
   async create({
