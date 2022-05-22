@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { User } from "@modules/users/infra/typeorm/entities/User";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 import { AppError } from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
@@ -16,20 +17,22 @@ class CreateUserUseCase {
     telefone,
     cargo,
     empresa,
-  }: ICreateUserDTO): Promise<void> {
+  }: ICreateUserDTO): Promise<User> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
     
     if (userAlreadyExists) {
       throw new AppError("User already exists");
     }
 
-    await this.usersRepository.create({
+    const user = await this.usersRepository.create({
       nome,
       email,
       telefone,
       cargo,
       empresa,
     });
+
+    return user;
   }
 }
 
