@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
+import { IUpdateUserDTO } from "@modules/users/dtos/IUpdateUserDTO";
 import { IUsersRepository } from "@modules/users/repositories/IUsersRepository";
 import { getRepository, Repository } from "typeorm";
 
@@ -10,7 +11,7 @@ class UsersRepository implements IUsersRepository {
   constructor() {
     this.repository = getRepository(User);
   }
-
+  
   async create({
     id,
     nome,
@@ -18,17 +19,16 @@ class UsersRepository implements IUsersRepository {
     telefone,
     cargo,
     empresa,
-    foto
-    
+    foto,
   }: ICreateUserDTO): Promise<User> {
     const user = this.repository.create({
-    id,
-    nome,
-    email,
-    telefone,
-    cargo,
-    empresa,
-    foto
+      id,
+      nome,
+      email,
+      telefone,
+      cargo,
+      empresa,
+      foto,
     });
 
     await this.repository.save(user);
@@ -36,9 +36,40 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-    async findByEmail(email: string): Promise<User> {
-      const user = await this.repository.findOne({ email });
-      return user;
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.repository.findOne({ email });
+    return user;
+  }
+
+  async findById(id: string): Promise<User> {
+    const user = await this.repository.findOne({ id });
+    return user;
+  }
+
+  async update({
+    id,
+    nome,
+    email,
+    telefone,
+    cargo,
+    empresa,
+  }: IUpdateUserDTO): Promise<User> {
+    const user = this.repository.create({
+      id,
+      nome,
+      email,
+      telefone,
+      cargo,
+      empresa,
+    });
+
+    await this.repository.save(user);
+
+    return user;
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
 }
 
